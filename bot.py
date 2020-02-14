@@ -13,10 +13,10 @@ def telegram_bot_send_message(bot_message):
 def notify():
     your_wishlist = get_wishlist('<STEAM_USER_ID>') # Steam User ID
     games_on_sale = get_games_on_sale(your_wishlist)
-    # If there is a game in Wishlist with discount 50% Off or more, sends game sale info to user
+    # If there is a game in Wishlist with discount 50% or more, sends game sale info to user
     if len(games_on_sale) > 0:
         games_on_sale_short = shorten_sale_info(games_on_sale)
-        title = "<b>The games on your Wishlist are on sale (50% Off or more):</b> \n"
+        title = "<b>The games on your Wishlist are on sale (50% or more):</b> \n"
         bot_message = title + "\n".join(games_on_sale_short)
     else:
         bot_message = "Oops. Sorry, today there is no sale for the games on your wishlist."
@@ -35,17 +35,23 @@ def get_games_on_sale(wishlist):
         app_details_endpoint = 'https://store.steampowered.com/api/appdetails?appids=' + appid
         app_details = requests.get(app_details_endpoint).json()
         app = app_details[appid]['data']
-        if app['is_free'] == False:
-            discount_percent = app['price_overview']['discount_percent']
-            if discount_percent >= 50:
-                games_on_sale.append(app)
+        discount_filter(app, games_on_sale)
     return games_on_sale
+
+# Applies a discount filter for each game in wishlist
+def discount_filter(game, filtered_games):
+    if game['is_free'] == False:
+        discount_percent = game['price_overview']['discount_percent']
+        if discount_percent >= 50:
+            filtered_games.append(game)
 
 def shorten_sale_info(games_on_sale):
     games_info_short = []
-    for game in games_on_sale:
-        games_info_short.append(game['name']  + ' - Discount: ' + str(game['price_overview']['discount_percent']) +
-            '% - Price: ' + game['price_overview']['final_formatted'])
+    for count, game in enumerate(games_on_sale, 1):
+        name = game['name']
+        discount = str(game['price_overview']['discount_percent'])
+        price = game['price_overview']['final_formatted']
+        games_info_short.append(f"<b>{count})</b> {name} is {discount}% Off! It's now {price}")
     return games_info_short
 
 
