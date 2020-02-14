@@ -5,14 +5,14 @@ import requests
 import telegram
 from telegram import ParseMode
 
-global bot = telegram.Bot(os.environ.get('BOT_TOKEN')) # Telegram Bot Authorization Token
+bot = telegram.Bot(os.environ['BOT_TOKEN']) # Telegram Bot Authorization Token
 
 def telegram_bot_send_message(bot_message):    
     bot_chatID = bot.get_updates()[0].message.chat_id
     bot.sendMessage(bot_chatID, bot_message, parse_mode=ParseMode.HTML)
 
 def notify():
-    your_wishlist = get_wishlist(os.environ.get('STEAM_USER_ID')) # Steam User ID
+    your_wishlist = get_wishlist(os.environ['STEAM_USER_ID']) # Steam User ID
     games_on_sale = get_games_on_sale(your_wishlist)
     # If there is a game in Wishlist with discount 50% or more, sends game sale info to user
     if len(games_on_sale) > 0:
