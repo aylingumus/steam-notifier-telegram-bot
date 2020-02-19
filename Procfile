@@ -1,1 +1,1 @@
-bot: python bot.py
+scheduler: python bot.py

@@ -57,11 +57,7 @@ def shorten_sale_info(games_on_sale):
 
 
 def main():
-    schedule.every().day.at("12:00").do(notify)
-
-    while True:
-        schedule.run_pending()
-        time.sleep(1)
+    notify()
 
 if __name__ == '__main__':
     main()
