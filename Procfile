@@ -1,1 +1,0 @@
-scheduler: python bot.py
