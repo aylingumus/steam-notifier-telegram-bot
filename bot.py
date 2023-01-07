@@ -1,6 +1,4 @@
 import os
-import time
-import schedule
 import requests
 import telegram
 from telegram import ParseMode
