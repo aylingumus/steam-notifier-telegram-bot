@@ -43,7 +43,7 @@ def get_games_on_sale(wishlist):
 
 # Applies a discount filter for each game in wishlist
 def discount_filter(game, filtered_games):
-    if game['is_free'] == False:
+    if game['is_free'] == False and 'price_overview' in game:
         discount_percent = game['price_overview']['discount_percent']
         if discount_percent >= 50:
             filtered_games.append(game)
