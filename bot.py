@@ -6,10 +6,10 @@ import telegram
 from telegram import ParseMode
 
 bot = telegram.Bot(os.environ['BOT_TOKEN']) # Telegram Bot Authorization Token
+chat_id = os.environ['CHAT_ID']
 
 def telegram_bot_send_message(bot_message):    
-    bot_chatID = bot.get_updates()[0].message.chat_id
-    bot.sendMessage(bot_chatID, bot_message, parse_mode=ParseMode.HTML)
+    bot.sendMessage(chat_id, bot_message, parse_mode=ParseMode.HTML)
 
 def notify():
     your_wishlist = get_wishlist(os.environ['STEAM_USER_ID']) # Steam User ID
