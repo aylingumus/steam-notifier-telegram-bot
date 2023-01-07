@@ -26,7 +26,8 @@ def notify():
 # Gets wishlist with Steam API
 def get_wishlist(steam_user_id):
     wishlist_endpoint = f"https://store.steampowered.com/wishlist/id/{steam_user_id}/wishlistdata/"
-    wishlist = requests.get(wishlist_endpoint).json() 
+    wishlist = requests.get(wishlist_endpoint).json()
+    print("Checking wishlist...")
     return wishlist
 
 # Gets which games are on sale from wishlist
@@ -36,6 +37,7 @@ def get_games_on_sale(wishlist):
         app_details_endpoint = f"https://store.steampowered.com/api/appdetails?appids={appid}"
         app_details = requests.get(app_details_endpoint).json()
         app = app_details[appid]['data']
+        print(f"Checking {app['name']}...")
         discount_filter(app, games_on_sale)
     return games_on_sale
 
