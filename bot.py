@@ -34,9 +34,10 @@ def get_games_on_sale(wishlist):
     for appid in wishlist:
         app_details_endpoint = f"https://store.steampowered.com/api/appdetails?appids={appid}"
         app_details = requests.get(app_details_endpoint).json()
-        app = app_details[appid]['data']
-        print(f"Checking {app['name']}...")
-        discount_filter(app, games_on_sale)
+        if app_details[appid]['success'] == True:
+            app = app_details[appid]['data']
+            print(f"Checking {app['name']}...")
+            discount_filter(app, games_on_sale)
     return games_on_sale
 
 # Applies a discount filter for each game in wishlist
